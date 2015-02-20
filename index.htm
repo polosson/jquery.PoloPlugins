@@ -6,18 +6,31 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="author" content="polosson">
 
-		<link rel="stylesheet" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css"/>
-		<script src="js/jquery-2.0.1.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="vendor/bootstrap.min.css" />
+		<script src="vendor/jquery-2.0.1.min.js"></script>
+		<script src="vendor/bootstrap.min.js"></script>
 		<script src="js/jquery.ajaxPostForm.js"></script>
+		<script>
+		$(function(){
+			$.messageBox({'message':"Welcome !!"});
+			$('#testform, #testform2').ajaxPostForm({
+				onSuccess: function(R){
+					$.messageBox({"cssClass":'alert-info', "message":R.message+'<pre>'+JSON.stringify(R.data)+'</pre>'});
+				}
+			});
+		});
+		</script>
 	</head>
 	<body>
 		<div class="container-fluid">
 			<div class="col-lg-6">
 				<h3>Jquery plugin to send form via ajax POST</h3>
-				<div id="testform" style="margin-top: 20px;">
+				<div id="testform" class="alert alert-success" style="margin-top: 20px;">
 					<div class="row">
+						<div class="col-lg-2"></div>
+						<div class="col-lg-10">
+							<h4>#testform</h4>
+						</div>
 						<div class="col-lg-2 text-right">
 							INPUT
 						</div>
@@ -38,7 +51,7 @@
 							TEXT
 						</div>
 						<div class="col-lg-10">
-							<textarea class="form-control" autocomplete="off" data-rules='{"r":1}' name="textarea"></textarea>
+							<textarea class="form-control" autocomplete="off" name="textarea"></textarea>
 						</div>
 					</div>
 					<div class="row">
@@ -74,8 +87,8 @@
 							CHECKBOXES
 						</div>
 						<div class="col-lg-10">
-							<div class="btn-group" data-toggle="buttons">
-								<label class="btn btn-sm btn-default active">
+							<div class="btn-group" data-toggle="buttons" data-rules='{"r":1}'>
+								<label class="btn btn-sm btn-default">
 									<input type="checkbox" name="checkboxes" autocomplete="off" value="chk1" /> Checkbox 1
 								</label>
 								<label class="btn btn-sm btn-default">
@@ -115,13 +128,17 @@
 				</div>
 
 
-				<div id="testform2" style="margin-top: 50px;">
+				<div id="testform2" class="alert alert-success" style="margin-top: 50px;">
 					<div class="row">
+						<div class="col-lg-2"></div>
+						<div class="col-lg-10">
+							<h4>#testform2</h4>
+						</div>
 						<div class="col-lg-2 text-right">
-							USER
+							EMAIL
 						</div>
 						<div class="col-lg-10">
-							<input type="text" class="form-control" name="user" autocomplete="off" data-rules='{"r":1}' value="polosson" />
+							<input type="text" class="form-control" name="email" autocomplete="off" data-rules='{"r":1,"f":"email"}' value="polo@polosson.com" />
 						</div>
 					</div>
 					<div class="row">
@@ -129,7 +146,7 @@
 							PASSWORD
 						</div>
 						<div class="col-lg-10">
-							<input type="password" class="form-control" name="pass" autocomplete="off" data-rules='{"r":1,"m":6,"M":20}' value='mlkqdsdknv' />
+							<input type="password" class="form-control" name="password" autocomplete="off" data-rules='{"r":1,"m":6,"M":20,"f":"password"}' value='megapsswd*' />
 						</div>
 					</div>
 					<div class="row">
@@ -154,19 +171,46 @@
 						<div class="message"></div>
 					</div>
 				</div>
+				<div class="row">
+					<h3>Documentation</h3>
+					<div style="margin-top: 20px;">
+						<h4>Basic use</h4>
+						<code>$('#testform, #testform2').ajaxPostForm();</code>
+					</div>
+					<div style="margin-top: 10px;">
+						<h4>Options</h4>
+						<pre>$('#testform, #testform2').ajaxPostForm({
+	'submit': '.submitBtn',		// The CSS selector to identify the form's submit button
+	'minInputLength': 4,		// Global minimum length for the input or textarea fields
+	'maxInputLength': 20,		// Global maximum length for the input or textarea fields
+	'extraParams': {"happy":"yes", "tired":"nope"},	// Global additionnal parameters to send
+	onSubmit: function(R){		// Invoked when submit button clicked
+		$.messageBox({"cssClass":'alert-info', "message":"Sending your awesome form via ajax..."});
+	},
+	onSuccess: function(R){		// Invoked when post request succeed
+		$.messageBox({"cssClass":'alert-success', "message":R.message+" Wonderful!"});
+	},
+	onFail: function(R){		// Invoked when post request failed
+		$.messageBox({"cssClass":'alert-danger', "message":R.message+" Too bad..."});
+	}
+});</pre>
+					</div>
+					<div style="margin-top: 10px;">
+						<h4>Submit button inline parameters (data- attributes on submit button)</h4>
+						<pre>data-destination	-> string : The path to the server for the POST request *REQUIRED*
+data-action		-> string : The name of the action to send to the server *REQUIRED*
+data-extra-params	-> object : Some additionnal parameters to send to the server (optionnal)</pre>
+					</div>
+					<div style="margin-top: 10px;">
+						<h4>Fields inline options (data- attributes on form fields)</h4>
+						<pre>data-rules: {"r":(bool),"m":(int),"M":(int),"f":(str)}
+	r -> boolean (1 || 0) : Makes the field mandatory if 1
+	m -> integer : Minimum length of input or textarear field
+	M -> integer : Maximum length of input or textarear field
+	f -> string  : Function name to validate the field ("email", "password", or "phone")</pre>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
-<script>
-	$(function(){
-		$.messageBox({'message':"Welcome !!"});
-		$('#testform, #testform2').ajaxPostForm({
-//			'extraParams': {"extra1":"wouzah", "extra2":"wazaa"},
-			onSuccess: function(R){
-				$.messageBox({"cssClass":'alert-info', "message":R.message+'<pre>'+JSON.stringify(R.data)+'</pre>'});
-			}
-		});
-	});
-</script>
-
 </html>

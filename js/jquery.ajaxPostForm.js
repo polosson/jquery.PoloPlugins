@@ -30,7 +30,7 @@ var sto;
 	 *		@setting {FUNCTION} onSubmit	Callback function when submit button is clicked
 	 *		@setting {FUNCTION} onSuccess	Callback function when ajax request successful
 	 *		@setting {FUNCTION} onFail		Callback function when ajax request failed or error occured
-	 * @returns the jQuery object instance
+	 * @returns {OBJECT} the jQuery object instance
 	 */
 	$.fn.ajaxPostForm = function(options){
 		// Multiple elements support
@@ -102,7 +102,7 @@ var sto;
 		});
 		/**
 		 * Initialize parameters of the POST request, and populate with option, or data-attribute
-		 * @returns OBJECT extra parameters, or empty object
+		 * @returns {OBJECT} extra parameters, or empty object
 		 */
 		function getExtraParams() {
 			var params = form.find(opts.submit).data("extra-params");
@@ -112,7 +112,7 @@ var sto;
 		}
 		/**
 		 * Get the form data
-		 * @returns OBJECT values of the form within an object
+		 * @returns {OBJECT} values of the form within an object
 		 */
 		function getAjaxForm() {
 			var values = {};
@@ -138,7 +138,7 @@ var sto;
 		 * Validate an input or textarea 's value according to its data- attributes
 		 * @param {OBJECT} elem		jquery dom element's instance
 		 * @param {STRING} value	The value of the element
-		 * @returns BOOL True if Ok, False if invalid
+		 * @returns {BOOL} True if Ok, False if invalid
 		 */
 		function validate(elem, value) {
 			var type  = $(elem).prop('type');
@@ -149,17 +149,33 @@ var sto;
 			if (type === "text" || type === "password" || $(elem).is('textarea')){
 				if ((rules && rules.m && value.length < rules.m) || value.length < opts.minInputLength) {
 					ok = false;
-					problems += "<li>The '"+name+"' field is too short.</li>";
-					if (rules && rules.r === 1) stop = true;
+					if (rules && rules.r === 1){
+						problems += "<li>The '"+name+"' field is too short.</li>";
+						stop = true;
+					}
 				}
 				if ((rules && rules.M && value.length > rules.M) || (opts.maxInputLength !== 0 && value.length > opts.maxInputLength)) {
 					ok = false;
-					problems += "<li>The '"+name+"' field is too long.</li>";
-					if (rules.r === 1) stop = true;
+					if (rules.r === 1){
+						problems += "<li>The '"+name+"' field is too long.</li>";
+						stop = true;
+					}
+				}
+				if (rules && rules.f) {
+					ok = checkFormat(rules.f, value);
+					if (!ok && rules.r === 1){
+						problems += "<li>The '"+name+"' field is invalid ('"+rules.f+"' format expected).</li>";
+						stop = true;
+					}
 				}
 			}
-			if ($(elem).is('select') && (value === null || value === ""))
+			if ($(elem).is('select') && (value === null || value === "")) {
 				ok = false;
+				if (rules && rules.r === 1){
+					problems += "<li>The '"+name+"' field is missing.</li>";
+					stop = true;
+				}
+			}
 			if (type === 'radio') {
 				if (!$(elem).parent('label').hasClass('active'))
 					ok = false;
@@ -167,6 +183,21 @@ var sto;
 			if (!ok && rules && rules.r === 1 && stop)
 				$(elem).parent().addClass('has-error');
 			return ok;
+		}
+		/**
+		 *
+		 * @param {STRING} type The format type ('email', 'password', or 'phone')
+		 * @param {STRING} value The value to check
+		 * @returns {BOOL} True if check passed, False otherwise
+		 */
+		function checkFormat(type, value){
+			if (type === "email")
+				return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(value));
+			else if (type === "password")
+				return (/^[\w&.\-\*]+$/.test(value));
+			else if (type === "phone")
+				return (/^[0-9]+$/.test(value));
+			else return true;
 		}
 
 		return this;
