@@ -4,7 +4,7 @@ A jquery plugin to help work with ajax forms.
 Started with JQuery 2.0.1, and using Bootstrap CSS classes | Licence: GNU Affero 3.0
 
 ### Basic
-With a collection of inputs, textareas and selects within a &lt;div&gt; (or other container, like &lt;form&gt; or &lt;section&gt;), you can just type:
+With a collection of inputs, textareas and selects within a &lt;div&gt; (or other container, like &lt;form&gt; or &lt;section&gt;), you can just add this when DOM is ready:
 
 `$('#yourFormDiv').ajaxPostForm();`
 
@@ -48,7 +48,7 @@ $('#yourFormDiv, #anotherOne').ajaxPostForm({
 });
 </pre>
 
-### Submit button inline parameters 
+### Submit button inline parameters
 These are "data-" attributes on submit button:
 <pre>
 data-destination	-> string : The path to the server for the POST request *REQUIRED*

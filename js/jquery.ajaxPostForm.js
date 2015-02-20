@@ -21,7 +21,6 @@ var sto;
 		window.sto = setTimeout(function(){ $(opts.identifier).fadeOut(1500); }, 3000);
 	};
 
-
 	/**
 	 * Ajax posting form
 	 * @param {OBJECT} options The settings above
@@ -135,7 +134,6 @@ var sto;
 			});
 			return values;
 		}
-
 		/**
 		 * Validate an input or textarea 's value according to its data- attributes
 		 * @param {OBJECT} elem		jquery dom element's instance
@@ -204,5 +202,4 @@ var sto;
 
 		return this;
 	};
-
 }(jQuery));
