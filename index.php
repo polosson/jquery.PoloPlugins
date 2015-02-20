@@ -129,14 +129,14 @@
 							PASSWORD
 						</div>
 						<div class="col-lg-10">
-							<input type="password" class="form-control" name="pass" autocomplete="off" data-rules='{"r":1,"m":6,"M":20}' />
+							<input type="password" class="form-control" name="pass" autocomplete="off" data-rules='{"r":1,"m":6,"M":20}' value='mlkqdsdknv' />
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-lg-2 text-right">
 						</div>
 						<div class="col-lg-10">
-							<button class="btn btn-success submitBtn" data-destination="actions/A_test.php" data-action="testTwo">SEND</button>
+							<button class="btn btn-success submitBtn" data-destination="actions/A_test.php" data-action="testTwo" data-extra-params='{"extra1":"wouzah", "extra2":"wazaa"}'>SEND</button>
 						</div>
 					</div>
 				</div>
@@ -156,6 +156,7 @@
 	$(function(){
 		$.messageBox({'message':"Bienvenue !!"});
 		$('#testform, #testform2').ajaxPostForm({
+//			'extraParams': {"extra1":"wouzah", "extra2":"wazaa"},
 			onSuccess: function(R){
 				$.messageBox({"cssClass":'alert-info', "message":R.message+'<pre>'+JSON.stringify(R.data)+'</pre>'});
 			}

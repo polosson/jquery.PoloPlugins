@@ -39,8 +39,7 @@ var sto;
 			});
 			return this;
 		}
-		var form = this;
-		var stop = false;
+		var form = this, stop = false;
 		/**
 		 * Defaults settings and callbacks
 		 */
@@ -48,6 +47,7 @@ var sto;
 			'submit': '.submitBtn',
 			'minInputLength': 4,
 			'maxInputLength': 0,
+			'extraParams': null,
 			onSubmit: function(R){
 				$.messageBox({"cssClass":'alert-info', "message":R.message});
 			},
@@ -58,6 +58,7 @@ var sto;
 				$.messageBox({"cssClass":'alert-danger', "message":R.message});
 			}
 		};
+
 		var opts = $.extend({}, defaults, options);
 
 		/**
@@ -65,8 +66,8 @@ var sto;
 		 */
 		$(document).off("ajaxError");
 		$(document).on("ajaxError", function(e,x,s,thrownError){
-			var msg = "Désolés, une erreur est survenue :<br />"+thrownError+"<br />"+x.responseText;
-			opts.onFail({"error":"erreur", "message":msg});
+			var msg = "Sorry, an error occured :<br />"+thrownError+"<br />"+x.responseText;
+			opts.onFail({"error":"error", "message":msg});
 		});
 		/*
 		 * Listen clicks on submit buttons to send data via POST request
@@ -74,15 +75,16 @@ var sto;
 		this.off('click', opts.submit);
 		this.on('click', opts.submit, function(e){
 			e.preventDefault();
-			opts.onSubmit({"message":"Sending..."});
+			opts.onSubmit({"message":"Sending request..."});
 			stop = false;
 			try {
 				var dest = $(this).data('destination');
-				if (typeof dest === "undefined")
-					throw "No destination specified... ('data-destination' attribute expected on the submit button)";
-				var params = getAjaxForm();
+				var params = getExtraParams();
+				params["data"] = getAjaxForm();
 				params["action"] = $(this).data('action');
-				if (typeof params["action"] === "undefined")
+				if (!dest)
+					throw "No destination specified... ('data-destination' attribute expected on the submit button)";
+				if (!params["action"])
 					throw "No action specified... ('data-action' attribute expected on the submit button)";
 				if (stop)
 					throw "Something is wrong. Take a look at the input's colors...";
@@ -94,9 +96,19 @@ var sto;
 				}, 'json');
 			}
 			catch(err) {
-				opts.onFail({"error":"erreur","message":err});
+				opts.onFail({"error":"error","message":err});
 			}
 		});
+		/**
+		 * Initialize parameters of the POST request, and populate with option, or data-attribute
+		 * @returns OBJECT extra parameters, or empty object
+		 */
+		function getExtraParams() {
+			var params = form.find(opts.submit).data("extra-params");
+			if (!params)
+				params = opts.extraParams;
+			return params || {};
+		}
 		/**
 		 * Get the form data
 		 * @returns OBJECT values of the form within an object
@@ -117,7 +129,7 @@ var sto;
 				}
 				values[name] = value;
 			});
-			return {"data":values};
+			return values;
 		}
 
 		/**
