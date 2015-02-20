@@ -136,7 +136,12 @@
 						<div class="col-lg-2 text-right">
 						</div>
 						<div class="col-lg-10">
-							<button class="btn btn-success submitBtn" data-destination="actions/A_test.php" data-action="testTwo" data-extra-params='{"extra1":"wouzah", "extra2":"wazaa"}'>SEND</button>
+							<button class="btn btn-success submitBtn"
+									data-destination="actions/A_test.php"
+									data-action="testTwo"
+									data-extra-params='{"extra1":"wouzah", "extra2":"wazaa"}'>
+								SEND
+							</button>
 						</div>
 					</div>
 				</div>
@@ -145,7 +150,7 @@
 			<div class="col-lg-6">
 				<div class="row">
 					<h3>Message box</h3>
-					<div class="alert hide" style="margin-top: 20px;" id="retourAjax">
+					<div class="alert hide" style="margin-top: 20px;" id="messageBox">
 						<div class="message"></div>
 					</div>
 				</div>

@@ -9,7 +9,7 @@ var sto;
 	 */
 	$.messageBox = function(options) {
 		var defaults = {
-			'identifier': "#retourAjax",
+			'identifier': "#messageBox",
 			'cssClass': 'alert-info',
 			'message': ""
 		};
@@ -40,7 +40,7 @@ var sto;
 			});
 			return this;
 		}
-		var form = this, stop = false;
+		var form = this, stop = false, problems = "";
 		/**
 		 * Defaults settings and callbacks
 		 */
@@ -88,7 +88,7 @@ var sto;
 				if (!params["action"])
 					throw "No action specified... ('data-action' attribute expected on the submit button)";
 				if (stop)
-					throw "Something is wrong. Take a look at the input's colors...";
+					throw "Something is wrong:<ul>"+problems+"</ul>";
 				$.post(dest, params, function(R){
 					if (R.error == 'OK')
 						opts.onSuccess(R);
@@ -116,6 +116,7 @@ var sto;
 		 */
 		function getAjaxForm() {
 			var values = {};
+			problems = "";
 			form.find('input, textarea, select').each(function(i, elem){
 				var type  = $(elem).prop('type');
 				var name  = $(elem).prop('name');
@@ -141,29 +142,20 @@ var sto;
 		 */
 		function validate(elem, value) {
 			var type  = $(elem).prop('type');
+			var name  = $(elem).prop('name');
 			var rules = $(elem).data('rules');
 			var ok = true;
 			$(elem).parent().removeClass('has-error');
 			if (type === "text" || type === "password" || $(elem).is('textarea')){
-				if (rules && rules.m) {
-					if (value.length < rules.m) {
-						ok = false;
-						if (rules && rules.r === 1) stop = true;
-					}
-				}
-				else if (value.length < opts.minInputLength) {
+				if ((rules && rules.m && value.length < rules.m) || value.length < opts.minInputLength) {
 					ok = false;
+					problems += "<li>The '"+name+"' field is too short.</li>";
 					if (rules && rules.r === 1) stop = true;
 				}
-				if(rules && rules.M) {
-					if (value.length > rules.M) {
-						ok = false;
-						if (rules.r === 1) stop = true;
-					}
-				}
-				else if (opts.maxInputLength !== 0 && value.length > opts.maxInputLength) {
+				if ((rules && rules.M && value.length > rules.M) || (opts.maxInputLength !== 0 && value.length > opts.maxInputLength)) {
 					ok = false;
-					if (rules && rules.r === 1) stop = true;
+					problems += "<li>The '"+name+"' field is too long.</li>";
+					if (rules.r === 1) stop = true;
 				}
 			}
 			if ($(elem).is('select') && (value === null || value === ""))
