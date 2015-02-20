@@ -51,6 +51,7 @@ var sto;
 			'extraParams': null,
 			onSubmit: function(R){
 				$.messageBox({"cssClass":'alert-info', "message":R.message});
+				return true;
 			},
 			onSuccess: function(R){
 				$.messageBox({"cssClass":'alert-success', "message":R.message});
@@ -76,13 +77,14 @@ var sto;
 		this.off('click', opts.submit);
 		this.on('click', opts.submit, function(e){
 			e.preventDefault();
-			opts.onSubmit({"message":"Sending request..."});
 			stop = false;
 			try {
 				var dest = $(this).data('destination');
 				var params = getExtraParams();
 				params["data"] = getAjaxForm();
 				params["action"] = $(this).data('action');
+				if (!opts.onSubmit({"params":params,"message":"Sending request..."}))
+					return;
 				if (!dest)
 					throw "No destination specified... ('data-destination' attribute expected on the submit button)";
 				if (!params["action"])
