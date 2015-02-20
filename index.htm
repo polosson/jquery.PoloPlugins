@@ -15,7 +15,10 @@
 			$.messageBox({'message':"Welcome !!"});
 			$('#testform, #testform2').ajaxPostForm({
 				onSuccess: function(R){
-					$.messageBox({"cssClass":'alert-info', "message":R.message+'<pre>'+JSON.stringify(R.data)+'</pre>'});
+					$.messageBox({
+						"cssClass":'alert-info',
+						"message":R.message+'<br /><code>'+JSON.stringify(R.data)+'</code>'
+					});
 				}
 			});
 		});
@@ -173,7 +176,7 @@
 				</div>
 				<div class="row">
 					<h3>Documentation</h3>
-					<div style="margin-top: 20px;">
+					<div style="margin-top: 10px;">
 						<h4>Basic use</h4>
 						<code>$('#testform, #testform2').ajaxPostForm();</code>
 					</div>
@@ -208,6 +211,10 @@ data-extra-params	-> object : Some additionnal parameters to send to the server 
 	m -> integer : Minimum length of input or textarear field
 	M -> integer : Maximum length of input or textarear field
 	f -> string  : Function name to validate the field ("email", "password", or "phone")</pre>
+					</div>
+					<div style="margin-top: 10px;">
+						<h4>** Message box utility</h4>
+						<code>$.messageBox({"cssClass":'alert-info',"message":"your message"});</code>
 					</div>
 				</div>
 			</div>

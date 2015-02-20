@@ -12,13 +12,13 @@ try {
 	if ($action == 'testOne') {
 		$retour['error'] = 'OK';
 		$retour['message'] = "OK, well done n°1";
-		$retour['data'] = $data;
+		$retour['data'] = $_POST;
 	}
 
 	if ($action == 'testTwo') {
 		$retour['error'] = 'OK';
 		$retour['message'] = "OK, well done n°2";
-		$retour['data'] = $data;
+		$retour['data'] = $_POST;
 	}
 
 }
