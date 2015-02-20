@@ -15,7 +15,7 @@
 	<body>
 		<div class="container-fluid">
 			<div class="col-lg-6">
-				<h3>Test du plugin jQuery de formulaire ajax auto</h3>
+				<h3>Jquery plugin to send form via ajax POST</h3>
 				<div id="testform" style="margin-top: 20px;">
 					<div class="row">
 						<div class="col-lg-2 text-right">
@@ -144,7 +144,7 @@
 
 			<div class="col-lg-6">
 				<div class="row">
-					<h3>Retour AJAX</h3>
+					<h3>Message box</h3>
 					<div class="alert hide" style="margin-top: 20px;" id="retourAjax">
 						<div class="message"></div>
 					</div>
@@ -154,7 +154,7 @@
 	</body>
 <script>
 	$(function(){
-		$.messageBox({'message':"Bienvenue !!"});
+		$.messageBox({'message':"Welcome !!"});
 		$('#testform, #testform2').ajaxPostForm({
 //			'extraParams': {"extra1":"wouzah", "extra2":"wazaa"},
 			onSuccess: function(R){

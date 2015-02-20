@@ -24,11 +24,12 @@ var sto;
 
 	/**
 	 * Ajax posting form
-	 * @setting STRING submit		The submit button's identifier (css selector)
-	 * @setting STRING messageBox	The ajax return messages div's identifier (css selector)
-	 * @setting FUNCTION onSubmit	Callback function when submit button is clicked
-	 * @setting FUNCTION onSuccess	Callback function when ajax request successful
-	 * @setting FUNCTION onFail		Callback function when ajax request failed or error occured
+	 * @param {OBJECT} options The settings above
+	 *		@setting {STRING} submit		The submit button's identifier (css selector)
+	 *		@setting {STRING} messageBox	The ajax return messages div's identifier (css selector)
+	 *		@setting {FUNCTION} onSubmit	Callback function when submit button is clicked
+	 *		@setting {FUNCTION} onSuccess	Callback function when ajax request successful
+	 *		@setting {FUNCTION} onFail		Callback function when ajax request failed or error occured
 	 * @returns the jQuery object instance
 	 */
 	$.fn.ajaxPostForm = function(options){
@@ -134,8 +135,8 @@ var sto;
 
 		/**
 		 * Validate an input or textarea 's value according to its data- attributes
-		 * @param OBJECT elem	jquery dom element's instance
-		 * @param STRING value	The value of the element
+		 * @param {OBJECT} elem		jquery dom element's instance
+		 * @param {STRING} value	The value of the element
 		 * @returns BOOL True if Ok, False if invalid
 		 */
 		function validate(elem, value) {
