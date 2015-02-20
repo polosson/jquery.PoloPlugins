@@ -1,0 +1,170 @@
+var sto;
+(function($) {
+	/**
+	 * Display a message in a div
+	 * @setting STRING identifier	The div's identifier (css selector)
+	 * @setting STRING cssClass		The class name to set on the div
+	 * @setting STRING message		The message to display
+	 * @returns null
+	 */
+	$.messageBox = function(options) {
+		var defaults = {
+			'identifier': "#retourAjax",
+			'cssClass': 'alert-info',
+			'message': ""
+		};
+		var opts = $.extend({}, defaults, options);
+		clearTimeout(window.sto);
+		$(opts.identifier).show().removeClass('hide alert-success alert-info alert-warning alert-danger').addClass(opts.cssClass);
+		$(opts.identifier).find('.message').html(opts.message);
+		if (opts.cssClass == 'alert-info' || opts.cssClass == 'alert-danger') return;
+		window.sto = setTimeout(function(){ $(opts.identifier).fadeOut(1500); }, 3000);
+	};
+
+
+	/**
+	 * Ajax posting form
+	 * @setting STRING submit		The submit button's identifier (css selector)
+	 * @setting STRING messageBox	The ajax return messages div's identifier (css selector)
+	 * @setting FUNCTION onSubmit	Callback function when submit button is clicked
+	 * @setting FUNCTION onSuccess	Callback function when ajax request successful
+	 * @setting FUNCTION onFail		Callback function when ajax request failed or error occured
+	 * @returns the jQuery object instance
+	 */
+	$.fn.ajaxPostForm = function(options){
+		// Multiple elements support
+		if (this.length > 1){
+			this.each(function(){
+				$(this).ajaxPostForm(options);
+			});
+			return this;
+		}
+		var form = this;
+		var stop = false;
+		/**
+		 * Defaults settings and callbacks
+		 */
+		var defaults = {
+			'submit': '.submitBtn',
+			'minInputLength': 4,
+			'maxInputLength': 0,
+			onSubmit: function(R){
+				$.messageBox({"cssClass":'alert-info', "message":R.message});
+			},
+			onSuccess: function(R){
+				$.messageBox({"cssClass":'alert-success', "message":R.message});
+			},
+			onFail: function(R){
+				$.messageBox({"cssClass":'alert-danger', "message":R.message});
+			}
+		};
+		var opts = $.extend({}, defaults, options);
+
+		/**
+		 * Listen to AJAX XHR errors
+		 */
+		$(document).off("ajaxError");
+		$(document).on("ajaxError", function(e,x,s,thrownError){
+			var msg = "Désolés, une erreur est survenue :<br />"+thrownError+"<br />"+x.responseText;
+			opts.onFail({"error":"erreur", "message":msg});
+		});
+		/*
+		 * Listen clicks on submit buttons to send data via POST request
+		 */
+		this.off('click', opts.submit);
+		this.on('click', opts.submit, function(e){
+			e.preventDefault();
+			opts.onSubmit({"message":"Sending..."});
+			stop = false;
+			try {
+				var dest = $(this).data('destination');
+				if (typeof dest === "undefined")
+					throw "No destination specified... ('data-destination' attribute expected on the submit button)";
+				var params = getAjaxForm();
+				params["action"] = $(this).data('action');
+				if (typeof params["action"] === "undefined")
+					throw "No action specified... ('data-action' attribute expected on the submit button)";
+				if (stop)
+					throw "Something is wrong. Take a look at the input's colors...";
+				$.post(dest, params, function(R){
+					if (R.error == 'OK')
+						opts.onSuccess(R);
+					else
+						opts.onFail(R);
+				}, 'json');
+			}
+			catch(err) {
+				opts.onFail({"error":"erreur","message":err});
+			}
+		});
+		/**
+		 * Get the form data
+		 * @returns OBJECT values of the form within an object
+		 */
+		function getAjaxForm() {
+			var values = {};
+			form.find('input, textarea, select').each(function(i, elem){
+				var type  = $(elem).prop('type');
+				var name  = $(elem).prop('name');
+				var value = $(elem).val();
+				if (!validate(elem, value)) return true;
+				if (type === 'checkbox') {
+					if ($(elem).parent('label').hasClass('active')) {
+						if (!values[name]) values[name] = new Array();
+						values[name] = values[name].concat(value);
+					}
+					return true;
+				}
+				values[name] = value;
+			});
+			return {"data":values};
+		}
+
+		/**
+		 * Validate an input or textarea 's value according to its data- attributes
+		 * @param OBJECT elem	jquery dom element's instance
+		 * @param STRING value	The value of the element
+		 * @returns BOOL True if Ok, False if invalid
+		 */
+		function validate(elem, value) {
+			var type  = $(elem).prop('type');
+			var rules = $(elem).data('rules');
+			var ok = true;
+			$(elem).parent().removeClass('has-error');
+			if (type === "text" || type === "password" || $(elem).is('textarea')){
+				if (rules && rules.m) {
+					if (value.length < rules.m) {
+						ok = false;
+						if (rules && rules.r === 1) stop = true;
+					}
+				}
+				else if (value.length < opts.minInputLength) {
+					ok = false;
+					if (rules && rules.r === 1) stop = true;
+				}
+				if(rules && rules.M) {
+					if (value.length > rules.M) {
+						ok = false;
+						if (rules.r === 1) stop = true;
+					}
+				}
+				else if (opts.maxInputLength !== 0 && value.length > opts.maxInputLength) {
+					ok = false;
+					if (rules && rules.r === 1) stop = true;
+				}
+			}
+			if ($(elem).is('select') && (value === null || value === ""))
+				ok = false;
+			if (type === 'radio') {
+				if (!$(elem).parent('label').hasClass('active'))
+					ok = false;
+			}
+			if (!ok && rules && rules.r === 1 && stop)
+				$(elem).parent().addClass('has-error');
+			return ok;
+		}
+
+		return this;
+	};
+
+}(jQuery));
