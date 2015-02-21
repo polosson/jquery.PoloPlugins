@@ -66,10 +66,12 @@ data-rules: {"r":(bool),"m":(int),"M":(int),"f":(str)}
 	f -> string  : Function name to validate the field ("email", "password", or "phone")
 </pre>
 
-#### Message box utility
-There is a little utility which is used to display response / error messages from the server, and which can be used to display any message you want.
+### Message box utility
+Within the `jquery.ajaxPostForm.js` plugin, there is a little utility which is used to display response / error messages from the server, and which can be used to display any message you want.
 
 `$.messageBox({"cssClass":'alert-info',"message":"your message"});`
+
+<hr />
 
 ## jquery.ajaxActions.js
 A jquery plugin to help work with action buttons in a table of data.
