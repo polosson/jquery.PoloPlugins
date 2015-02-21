@@ -38,8 +38,8 @@
 			// Action table example
 			$('#testActions').ajaxActions({
 				"export": function(dataTable, dataID){		// Custom action
-					$.messageBox({"message":"Exporting #"+dataID+" from '"+dataTable+"'... Oh yeah."});
-					return {};
+					$.messageBox({"message":"Exporting #"+dataID+" from '"+dataTable+"'... Oh yeah?"});
+					return (confirm("Exporting this row to XMl file ?"));
 				}
 			});
 		});
@@ -197,28 +197,70 @@
 				<div id="ajaxActionsDemo" class="collapse in">
 					<div id="actionDemo" class="well">
 						<h4>#testActions</h4>
-						<table class="table table-stripped" data-set="someZas" id="testActions">
-							<tr>
-								<th style="width:50px;">ID</th>
-								<th>Type</th>
-								<th>Description</th>
-								<th style="width:150px;">
-									Actions
-									<button class="btn btn-xs btn-success pull-right" data-destination="actions/A_test.php" data-button-action="add">ADD</button>
-								</th>
-							</tr>
-							<tr data-row-id="1">
-								<td data-editable="false" data-field="id"	 data-value="1"># 1</td>
-								<td data-editable="true"  data-field="name"  data-value="za1">Type <b>za1</b></td>
-								<td data-editable="true"  data-field="descr" data-value="Wouzaah n°1"><code>Wouzaah n°1</code></td>
-								<td>
-									<div class="btn-group">
-										<button class="btn btn-xs btn-primary"	data-destination="actions/A_test.php" data-button-action="edit"	>Edit</button>
-										<button class="btn btn-xs btn-warning"	data-destination="actions/A_test.php" data-button-action="export"	>Export</button>
-										<button class="btn btn-xs btn-danger"	data-destination="actions/A_test.php" data-button-action="delete"	>Delete</button>
-									</div>
-								</td>
-							</tr>
+						<table class="table table-stripped" data-destination="actions/A_test.php" data-set="someZas" id="testActions">
+							<thead>
+								<tr>
+									<th data-editable="false" data-field="id" style="width:50px;">ID</th>
+									<th data-editable="true"  data-field="type">Type</th>
+									<th data-editable="true"  data-field="descr">Description</th>
+									<th data-editable="false" data-field="__actions" style="width:150px;">
+										Actions
+										<button class="btn btn-xs btn-success pull-right" data-button-action="add">ADD</button>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr data-row-id="1">
+									<td data-field="id"	 data-value="1"># 1</td>
+									<td data-field="type"  data-value="za1">Type <b>za1</b></td>
+									<td data-field="descr" data-value="Wouzaah n°1"><code>Wouzaah n°1</code></td>
+									<td data-field="__actions">
+										<div class="btn-group">
+											<button class="btn btn-xs btn-primary" data-button-action="edit"  >Edit</button>
+											<button class="btn btn-xs btn-warning" data-button-action="export">Export</button>
+											<button class="btn btn-xs btn-danger"  data-button-action="delete">Delete</button>
+										</div>
+									</td>
+								</tr>
+								<tr data-row-id="2">
+									<td data-field="id"	 data-value="2"># 2</td>
+									<td data-field="type"  data-value="za2">Type <b>za2</b></td>
+									<td data-field="descr" data-value="Wouzaah n°2"><code>Wouzaah n°2</code></td>
+									<td data-field="__actions">
+										<div class="btn-group">
+											<button class="btn btn-xs btn-primary" data-button-action="edit"  >Edit</button>
+											<button class="btn btn-xs btn-warning" data-button-action="export">Export</button>
+											<button class="btn btn-xs btn-danger"  data-button-action="delete">Delete</button>
+										</div>
+									</td>
+								</tr>
+								<tr data-row-id="3">
+									<td data-field="id"	 data-value="3"># 3</td>
+									<td data-field="type"  data-value="za3">Type <b>za3</b></td>
+									<td data-field="descr" data-value="Wouzaah n°3"><code>Wouzaah n°3</code></td>
+									<td data-field="__actions">
+										<div class="btn-group">
+											<button class="btn btn-xs btn-primary" data-button-action="edit"  >Edit</button>
+											<button class="btn btn-xs btn-warning" data-button-action="export">Export</button>
+											<button class="btn btn-xs btn-danger"  data-button-action="delete">Delete</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot class="hide">
+								<tr>
+									<td data-field="id"># {{val}}</td>
+									<td data-field="type">Type <b>{{val}}</b></td>
+									<td data-field="descr"><code>{{val}}</code></td>
+									<td data-field="__actions">
+										<div class="btn-group">
+											<button class="btn btn-xs btn-primary" data-button-action="edit"  >Edit</button>
+											<button class="btn btn-xs btn-warning" data-button-action="export">Export</button>
+											<button class="btn btn-xs btn-danger"  data-button-action="delete">Delete</button>
+										</div>
+									</td>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>

@@ -21,6 +21,25 @@ try {
 		$retour['data'] = $_POST;
 	}
 
+	if ($action == 'add') {
+		$retour['error'] = 'OK';
+		$retour['message'] = "OK, the ROW was ADDED !!";
+		$retour['data'] = $_POST;
+		$retour['data']["newData"]['id'] = 4;
+	}
+
+	if ($action == 'edit') {
+		$retour['error'] = 'OK';
+		$retour['message'] = "OK, the ROW was EDITED !!";
+		$retour['data'] = $_POST;
+	}
+
+	if ($action == 'delete') {
+		$retour['error'] = 'OK';
+		$retour['message'] = "OK, the ROW was DELETED !!";
+		$retour['data'] = $_POST;
+	}
+
 }
 catch(Exception $e) { $retour['message'] = $e->getMessage(); }
 
