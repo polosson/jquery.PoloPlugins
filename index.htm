@@ -37,9 +37,10 @@
 			});
 			// Action table example
 			$('#testActions').ajaxActions({
-				"export": function(dataTable, dataID){		// Custom action
-					$.messageBox({"message":"Exporting #"+dataID+" from '"+dataTable+"'... Oh yeah?"});
-					return (confirm("Exporting this row to XMl file ?"));
+				"export": function(dataSet, rowID){		// Custom action
+					$.messageBox({"message":"Exporting #"+rowID+" from '"+dataSet+"'... Oh yeah?"});
+					params["dataSet"] = dataSet, params["rowID"]  = rowID;
+					return (confirm("Exporting this row to XML file ?"));
 				}
 			});
 		});

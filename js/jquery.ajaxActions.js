@@ -1,4 +1,4 @@
-
+var params		= {};
 (function($) {
 	/**
 	 * Ajax action handling
@@ -20,7 +20,7 @@
 		var table		= this;
 		var buttons		= table.find('button[data-button-action]');
 		var destination	= table.data('destination');
-		var params		= {};
+		params			= {};
 		buttons.prop('disabled', null);
 
 		/**
@@ -29,11 +29,11 @@
 		 * All you have to do is to be sure the name of the function matches the "data-button-action" attribute.
 		 */
 		var defaults = {
-			"add":	   function(dataSet,dataID) { return addRow(dataSet); },
-			"edit":	   function(dataSet,dataID) { return editRow(dataSet,dataID); },
-			"delete":  function(dataSet,dataID) { return delRow(dataSet,dataID); },
-			"submit":  function(dataSet,dataID) { return initSubmitParams(dataSet,dataID); },
-			"cancel":  function(dataSet,dataID) { return resetParams(dataSet,dataID); },
+			"add":	   function(dataSet,rowID) { return addRow(dataSet); },
+			"edit":	   function(dataSet,rowID) { return editRow(dataSet,rowID); },
+			"delete":  function(dataSet,rowID) { return delRow(dataSet,rowID); },
+			"submit":  function(dataSet,rowID) { return initSubmitParams(dataSet,rowID); },
+			"cancel":  function(dataSet,rowID) { return resetParams(dataSet,rowID); },
 			onSuccess: function(R){
 				$.messageBox({"cssClass":'alert-success', "message":R.message});
 				if (params['action'] === "add")
@@ -56,11 +56,11 @@
 		table.on('click', "button[data-button-action]", function(){
 			var action	= $(this).data('button-action');
 			var dataSet	= $(this).parents('[data-set]').data('set');
-			var dataID	= $(this).parents('[data-row-id]').data('row-id');
+			var rowID	= $(this).parents('[data-row-id]').data('row-id');
 			try {
 				if (!opts[action])
 					throw "This action does not have an assigned function.<br />Please create the function <b>'"+action+"'</b> in the plugin's settings.";
-				if (opts[action](dataSet,dataID) !== true)
+				if (opts[action](dataSet,rowID) !== true)
 					return;
 				if (typeof params !== 'object')
 					throw "No parameters to send (expected an object). There might be an error.";
@@ -104,14 +104,14 @@
 		/**
 		 * Edit function : to edit a row
 		 * @param {STRING} dataSet The data name (i.e. SQL table)
-		 * @param {STRING} dataID The ID of the row
+		 * @param {STRING} rowID The ID of the row
 		 * @returns {OBJECT} The row's new data, and its ID
 		 */
-		function editRow(dataSet, dataID){
-			$.messageBox({"message":"Editing the row #"+dataID+" in '"+dataSet+"'..."});
-			params = {"action":"edit", "rowID":dataID};
+		function editRow(dataSet, rowID){
+			$.messageBox({"message":"Editing the row #"+rowID+" in '"+dataSet+"'..."});
+			params = {"action":"edit", "rowID":rowID};
 			buttons.prop('disabled', 'disabled');
-			var $line = $('tr[data-row-id="'+dataID+'"]');
+			var $line = $('tr[data-row-id="'+rowID+'"]');
 			table.find('th').each(function(){
 				var editable = $(this).data("editable");
 				var fieldName = $(this).data("field");
@@ -132,26 +132,26 @@
 		/**
 		 * Del function : to delete a row
 		 * @param {STRING} dataSet The data name (i.e. SQL table)
-		 * @param {STRING} dataID The ID of the row
+		 * @param {STRING} rowID The ID of the row
 		 * @returns {OBJECT} The row's ID
 		 */
-		function delRow(dataSet, dataID){
+		function delRow(dataSet, rowID){
 			if (!confirm("Delete this entry? Sure?")) return false;
-			$.messageBox({"message":"Deleting the row #"+dataID+" in '"+dataSet+"'..."});
-			params = {"action":"delete", "rowID":dataID};
+			$.messageBox({"message":"Deleting the row #"+rowID+" in '"+dataSet+"'..."});
+			params = {"action":"delete", "rowID":rowID};
 			return true;
 		}
 
 		/**
 		 * Click on valid button
 		 * @param {STRING} dataSet The data name (i.e. SQL table)
-		 * @param {STRING} dataID The ID of the row
+		 * @param {STRING} rowID The ID of the row
 		 * @returns {TRUE}
 		 */
-		function initSubmitParams(dataSet, dataID) {
+		function initSubmitParams(dataSet, rowID) {
 			params['dataSet'] = dataSet;
 			params['newData'] = {};
-			var $line = $('tr[data-row-id="'+dataID+'"]');
+			var $line = $('tr[data-row-id="'+rowID+'"]');
 			$line.find('input').each(function(){
 				var field = $(this).parent('td').data('field');
 				var value = $(this).val();
@@ -163,11 +163,11 @@
 		/**
 		 * Click on cancel button
 		 * @param {STRING} dataSet The data name (i.e. SQL table)
-		 * @param {STRING} dataID The ID of the row
+		 * @param {STRING} rowID The ID of the row
 		 * @returns {FALSE}
 		 */
-		function resetParams(dataSet, dataID) {
-			var inputsLine = $('tr[data-row-id="'+dataID+'"]');
+		function resetParams(dataSet, rowID) {
+			var inputsLine = $('tr[data-row-id="'+rowID+'"]');
 			if (["add","delete"].indexOf(params['action']) != -1)
 				inputsLine.remove();
 			if (params['action'] === "edit") {
@@ -192,7 +192,7 @@
 		 * Process the ajax POST
 		 */
 		function postParams() {
-			console.log(params);
+//			console.log(params);
 			$.post(destination, params, function(R){
 				if (R.error == 'OK')
 					opts.onSuccess(R);
@@ -224,9 +224,10 @@
 		/**
 		 * Update a line of the table after an edit
 		 * @param {OBJECT} rowData The new data of the edited line.
+		 * @param {STRING} rowID The ID of the edited line.
 		 */
-		function updateTableRow(rowData, dataID) {
-			var inputsLine = $('tr[data-row-id="'+dataID+'"]');
+		function updateTableRow(rowData, rowID) {
+			var inputsLine = $('tr[data-row-id="'+rowID+'"]');
 			inputsLine.find('input').each(function(){
 				var field  = $(this).parents('td').data("field");
 				var model  = table.find('tfoot td[data-field="'+field+'"]').html();
