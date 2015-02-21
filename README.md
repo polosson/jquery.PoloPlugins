@@ -103,21 +103,25 @@ Essentially, you can set any action function you need. You simply must be sure t
 
 Example of custom action button:
 <pre>
-<table data-destination="actions/A_users.php" data-set="users" id="myActionTable">
+&lt;table data-destination="actions/A_users.php" data-set="users" id="myActionTable"&gt;
 	(...)
-	<button data-button-action="export">Export a row</button>
-(...)
-<script>
-	$(function(){
-		$('#myActionTable').ajaxActions({
-			"export": function(dataSet, rowID){
-				$.messageBox({"message":"Exporting #"+rowID+" from '"+dataSet+"'..."});
-				params["dataSet"] = dataSet, params["rowID"] = rowID;
-				return (confirm("Exporting this row to XML file ?"));
-			}
-		});
+	&lt;button data-button-action="export"&gt;Export a row&lt;/button&gt;
+	(...)
+&lt;/table&gt;
+</pre><pre>
+&lt;script&gt;
+// Wait for DOM ready
+$(function(){
+	// Plugin initialisation
+	$('#myActionTable').ajaxActions({
+		"export": function(dataSet, rowID){	// custom function for action button "export"
+			$.messageBox({"message":"Exporting #"+rowID+" from '"+dataSet+"'..."});
+			params["dataSet"] = dataSet, params["rowID"] = rowID;
+			return (confirm("Exporting this row to XML file ?"));
+		}
 	});
-</script>
+});
+&lt;/script&gt;
 </pre>
 
 Custom action's functions have 2 parameters available:
