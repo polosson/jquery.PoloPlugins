@@ -3,7 +3,7 @@ A jquery plugin to help work with ajax forms.
 
 Started with JQuery 2.0.1, and using Bootstrap CSS classes | Licence: GNU Affero 3.0
 
-### Basic usage
+#### Basic usage
 With a collection of inputs, textareas and selects within a &lt;div&gt; (or other container, like &lt;form&gt; or &lt;section&gt;), you can just add this when DOM is ready:
 
 `$('#yourFormDiv').ajaxPostForm();`
@@ -14,7 +14,7 @@ This div **must contain** a button or submit that have the class `.submitBtn`, a
 
 Additionnal parameters can also be sent with the `data-extra-params` attribute. For more options see above
 
-### More options & callbacks
+#### More options & callbacks
 Here is an example of all options and callbacks functions you can use:
 <pre>
 $('#yourFormDiv, #anotherOne').ajaxPostForm({
@@ -48,7 +48,7 @@ $('#yourFormDiv, #anotherOne').ajaxPostForm({
 });
 </pre>
 
-### Submit button inline parameters
+#### Submit button inline parameters
 These are "data-" attributes on submit button:
 <pre>
 data-destination	-> string : The path to the server for the POST request *REQUIRED*
@@ -56,7 +56,7 @@ data-action			-> string : The name of the action to send to the server *REQUIRED
 data-extra-params	-> object : Some additionnal parameters to send to the server (optionnal)
 </pre>
 
-### Fields inline parameters
+#### Fields inline parameters
 These are "data-" attributes on form fields, to specify some extra options for validation:
 <pre>
 data-rules: {"r":(bool),"m":(int),"M":(int),"f":(str)}
@@ -66,7 +66,7 @@ data-rules: {"r":(bool),"m":(int),"M":(int),"f":(str)}
 	f -> string  : Function name to validate the field ("email", "password", or "phone")
 </pre>
 
-### Message box utility
+#### Message box utility
 There is a little utility which is used to display response / error messages from the server, and which can be used to display any message you want.
 
 `$.messageBox({"cssClass":'alert-info',"message":"your message"});`
@@ -76,7 +76,7 @@ A jquery plugin to help work with action buttons in a table of data.
 
 Started with JQuery 2.0.1, and using Bootstrap CSS classes | Licence: GNU Affero 3.0
 
-### Basic usage
+#### Basic usage
 You must create a &lt;table&gt; with:
 - The attributes `data-destination="path/to/server"` to define the location of the server side action handler, and `data-set="table_name"` to give the name of the data (i.e. SQL table name)
 - In the &lt;thead&gt;, all &lt;th&gt  must have the following attributes:
@@ -98,7 +98,7 @@ Then you just have to add this when DOM is ready:
 
 `$('#yourTable').ajaxActions();`
 
-### More options
+#### More options
 Essentially, you can set any action function you need. You simply must be sure that the action name and its function name are the same.
 
 Example of custom action button:
