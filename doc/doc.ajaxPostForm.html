@@ -1,15 +1,18 @@
-<h3>ajaxPostForm.js</h3>
+
+<style>
+	code { color: #c9302c !important; }
+</style>
+
+<h3>ajaxPostForm.js documentation</h3>
 <article>
 	<h4>Basic use</h4>
 	<code>$('#testform, #testform2').ajaxPostForm();</code>
 </article>
 <article>
 	<h4>Submit button inline parameters (data- attributes on submit button)</h4>
-	<pre>
-<code>data-destination	-> string : The path to the server for the POST request *REQUIRED*
+	<pre>data-destination	-> string : The path to the server for the POST request *REQUIRED*
 data-action		-> string : The name of the action to send to the server *REQUIRED*
-data-extra-params	-> object : Some additionnal parameters to send to the server (optionnal)</code>
-	</pre>
+data-extra-params	-> object : Some additionnal parameters to send to the server (optionnal)</pre>
 	Example:<br />
 	<pre>
 <code>&lt;button class="btn btn-success submitBtn"
@@ -56,10 +59,11 @@ data-extra-params	-> object : Some additionnal parameters to send to the server 
 </article>
 <article>
 	<h4>Fields inline options (data- attributes on form fields)</h4>
-	<pre>
-data-rules: {"r":(bool),"m":(int),"M":(int),"f":(str)}
-r -> boolean (1 || 0) : Makes the field mandatory if 1
-m -> integer : Minimum length of input or textarear field
-M -> integer : Maximum length of input or textarear field
-f -> string  : Function name to validate the field ("email", "password", or "phone")</pre>
+	<pre>data-rules: {"r":(bool),"m":(int),"M":(int),"f":(str)}
+	r -> boolean (1 || 0) : Makes the field mandatory if 1
+	m -> integer : Minimum length of input or textarear field
+	M -> integer : Maximum length of input or textarear field
+	f -> string  : Function name to validate the field ("email", "password", or "phone")</pre>
+	Example:<br />
+	<code>&lt;input type="text" class="form-control" data-rules='{"r":1, "m":6, "f":"email"}' name="email" /&gt;</code>
 </article>

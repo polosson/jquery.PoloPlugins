@@ -19,12 +19,8 @@
 		// Ajax Form example
 		$('#testform, #testform2').ajaxPostForm({
 			onSubmit: function(R) {
-				if (R.params.data.radios == "rad1") {
-					$.messageBox({"cssClass":'alert-danger',
-						"message": "I do not allow you to post here because you checked the radio '"+R.params.data.radios+"'!!<br />Mouaahahahaaaa !!!"
-					});
-					return false;
-				}
+				if (R.params.data.email == "polo@test.com")
+					throw "I do not allow you to post here because you have to use your own adress email !";
 				return true;
 			},
 			onSuccess: function(R){
@@ -37,7 +33,7 @@
 		// Documentation loader
 		$('.doc').click(function(){
 			var toLoad = $(this).data("to-load");
-			$('#docLoader').load('doc/'+toLoad+'.html?1');
+			$('#docLoader').load('doc/'+toLoad+'.html');
 		});
 	});
 	</script>
@@ -67,7 +63,7 @@
 							INPUT
 						</div>
 						<div class="col-lg-10">
-							<input type="text" class="form-control" autocomplete="off" name="input" />
+							<input type="text" class="form-control" autocomplete="off" data-rules='{"r":1, "m":6}' name="input" />
 						</div>
 					</div>
 					<div class="row">
@@ -170,7 +166,7 @@
 							EMAIL
 						</div>
 						<div class="col-lg-10">
-							<input type="text" class="form-control" name="email" autocomplete="off" data-rules='{"r":1,"f":"email"}' value="polo@polosson.com" />
+							<input type="text" class="form-control" name="email" autocomplete="off" data-rules='{"r":1,"f":"email"}' value="polo@test.com" />
 						</div>
 					</div>
 					<div class="row">
