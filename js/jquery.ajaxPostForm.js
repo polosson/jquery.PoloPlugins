@@ -49,15 +49,6 @@
 		};
 
 		var opts = $.extend({}, defaults, options);
-
-		/**
-		 * Listen to AJAX XHR errors
-		 */
-		$(document).off("ajaxError");
-		$(document).on("ajaxError", function(e,x,s,thrownError){
-			var msg = "Sorry, an error occured :<br />"+thrownError+"<br />"+x.responseText;
-			opts.onFail({"error":"error", "message":msg});
-		});
 		/*
 		 * Listen clicks on submit buttons to send data via POST request
 		 */

@@ -17,7 +17,7 @@ var sto;
 		var opts = $.extend({}, defaults, options);
 		clearTimeout(window.sto);
 		$(opts.identifier).show().removeClass('hide alert-success alert-info alert-warning alert-danger').addClass(opts.cssClass);
-		var msgDiv = $('<div class="mBmsg">');
+		var msgDiv = $('<div class="mBmsg"></div>');
 		msgDiv.html(opts.message);
 		$(opts.identifier).html('').append(msgDiv);
 		$(opts.identifier).prepend('<span class="close">'+opts.closeBtn+'</span>');
@@ -26,4 +26,14 @@ var sto;
 		if (opts.cssClass == 'alert-info' || opts.cssClass == 'alert-danger') return;
 		window.sto = setTimeout(function(){ $(opts.identifier).fadeOut(1500); }, 3000);
 	};
+
+	/**
+	 * Listen to AJAX XHR errors
+	 */
+	$(document).off("ajaxError");
+	$(document).on("ajaxError", function(e,x,s,thrownError){
+		var msg = "Sorry, an error occured :<br />"+thrownError+"<br />"+x.responseText;
+		$.messageBox({"cssClass":"alert-danger", "message":msg});
+	});
+
 }(jQuery));
