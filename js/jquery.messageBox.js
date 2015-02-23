@@ -35,5 +35,16 @@ var sto;
 		var msg = "Sorry, an error occured :<br />"+thrownError+"<br />"+x.responseText;
 		$.messageBox({"cssClass":"alert-danger", "message":msg});
 	});
+	/**
+	 * Listen to AJAX start/stop (i.e. to show a loading icon or text while sending ajax requests)
+	 */
+	$(document).ajaxStart(function(){
+		$("#ajaxLoader").show();
+		$('body').css('cursor', 'wait');
+	});
+	$(document).ajaxStop(function(){
+		$("#ajaxLoader").hide();
+		$('body').css('cursor', 'auto');
+	});
 
 }(jQuery));
