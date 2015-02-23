@@ -7,7 +7,16 @@ var params		= {};
 	 * @returns {OBJECT} the jQuery object instance
 	 */
 	$.fn.ajaxActions = function(options){
-		// Multiple elements support
+		/*
+		 * Check presence of messageBox plugin
+		 */
+		if (typeof $.messageBox !== "function") {
+			alert('jquery.messageBox plugin is missing!');
+			return;
+		}
+		/*
+		 * Multiple elements support
+		 */
 		if (this.length > 1){
 			this.each(function(){
 				$(this).ajaxActions(options);

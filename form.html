@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ajaxPostForm PoloPlugin</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="polosson">
+
+	<link  href="vendor/bootstrap.min.css" rel="stylesheet" />
+
+	<script src="vendor/jquery-2.0.1.min.js"></script>
+	<script src="vendor/bootstrap.min.js"></script>
+	<script src="js/jquery.messageBox.js"></script>
+	<script src="js/jquery.ajaxPostForm.js"></script>
+	<script>
+	$(function(){
+		// Message box example
+		$.messageBox({'message':"Welcome !!"});
+		// Ajax Form example
+		$('#testform, #testform2').ajaxPostForm({
+			onSubmit: function(R) {
+				if (R.params.data.radios == "rad1") {
+					$.messageBox({"cssClass":'alert-danger',
+						"message": "I do not allow you to post here because you checked the radio '"+R.params.data.radios+"'!!<br />Mouaahahahaaaa !!!"
+					});
+					return false;
+				}
+				return true;
+			},
+			onSuccess: function(R){
+				$.messageBox({
+					"cssClass":'alert-info',
+					"message":R.message+'<br /><span class="text-danger">'+JSON.stringify(R.data)+'</span>'
+				});
+			}
+		});
+		// Documentation loader
+		$('.doc').click(function(){
+			var toLoad = $(this).data("to-load");
+			$('#docLoader').load('doc/'+toLoad+'.html?1');
+		});
+	});
+	</script>
+</head>
+<body style="overflow-y: scroll;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-10 alert alert-warning">
+				<h2><a href="index.html">JQuery Polo Plugins</a></h2>
+				<a class="btn btn-primary" href="message.html">messageBox.js</a>
+				<a class="btn btn-warning" href="form.html">ajaxPostForm.js</a>
+				<a class="btn btn-primary" href="table.html">ajaxActions.js</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-6">
+				<h3>Jquery plugin to send form via ajax POST - <small>jquery.ajaxPostForm.js</small> -</h3>
+				<div id="testform" class="well" style="margin-top: 20px;">
+					<div class="row">
+						<div class="col-lg-2"></div>
+						<div class="col-lg-10">
+							<h4>#testform</h4>
+						</div>
+						<div class="col-lg-2 text-right">
+							INPUT
+						</div>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" autocomplete="off" name="input" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2 text-right">
+							PASSWORD
+						</div>
+						<div class="col-lg-10">
+							<input type="password" class="form-control" autocomplete="off" name="passwd" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2 text-right">
+							TEXT
+						</div>
+						<div class="col-lg-10">
+							<textarea class="form-control" autocomplete="off" name="textarea"></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2 text-right">
+							SELECT
+						</div>
+						<div class="col-lg-10">
+							<select class="form-control" name="select">
+								<option value=""></option>
+								<option value="opt2">Option 2</option>
+								<option value="opt3">Option 3</option>
+								<option value="opt4">Option 4</option>
+								<option value="opt5">Option 5</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2 text-right">
+							MULTI SELECT
+						</div>
+						<div class="col-lg-10">
+							<select class="form-control" style="height: 120px;" name="multiselect" multiple>
+								<option value="opt1">Option 1</option>
+								<option value="opt2">Option 2</option>
+								<option value="opt3">Option 3</option>
+								<option value="opt4">Option 4</option>
+								<option value="opt5">Option 5</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2 text-right">
+							CHECKBOXES
+						</div>
+						<div class="col-lg-10">
+							<div class="btn-group" data-toggle="buttons" data-rules='{"r":1}'>
+								<label class="btn btn-sm btn-default">
+									<input type="checkbox" name="checkboxes" autocomplete="off" value="chk1" /> Checkbox 1
+								</label>
+								<label class="btn btn-sm btn-default">
+									<input type="checkbox" name="checkboxes" autocomplete="off" value="chk2" /> Checkbox 2
+								</label>
+								<label class="btn btn-sm btn-default">
+									<input type="checkbox" name="checkboxes" autocomplete="off" value="chk3" /> Checkbox 3
+								</label>
+								<label class="btn btn-sm btn-default">
+									<input type="checkbox" name="checkboxes" autocomplete="off" value="chk4" /> Checkbox 4
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2 text-right">
+							RADIOS
+						</div>
+						<div class="col-lg-10">
+							<div class="btn-group" data-toggle="buttons">
+								<label class="btn btn-sm btn-default active">
+									<input type="radio" name="radios" autocomplete="off" checked="checked" value="rad1" /> Radio 1
+								</label>
+								<label class="btn btn-sm btn-default">
+									<input type="radio" name="radios" autocomplete="off" value="rad2" /> Radio 2
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2 text-right">
+						</div>
+						<div class="col-lg-10">
+							<button class="btn btn-success submitBtn" data-destination="actions/A_test.php" data-action="testOne">SEND</button>
+						</div>
+					</div>
+				</div>
+
+
+				<div id="testform2" class="well" style="margin-top: 50px;">
+					<div class="row">
+						<div class="col-lg-2"></div>
+						<div class="col-lg-10">
+							<h4>#testform2</h4>
+						</div>
+						<div class="col-lg-2 text-right">
+							EMAIL
+						</div>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" name="email" autocomplete="off" data-rules='{"r":1,"f":"email"}' value="polo@polosson.com" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2 text-right">
+							PASSWORD
+						</div>
+						<div class="col-lg-10">
+							<input type="password" class="form-control" name="password" autocomplete="off" data-rules='{"r":1,"m":6,"M":20,"f":"password"}' value='megapsswd*' />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2 text-right">
+						</div>
+						<div class="col-lg-10">
+							<button class="btn btn-success submitBtn"
+									data-destination="actions/A_test.php"
+									data-action="testTwo"
+									data-extra-params='{"extra1":"wouzah", "extra2":"wazaa"}'>
+								SEND
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="row" style="margin-top:30px;">
+					<div class="alert hide" id="messageBox"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-7 alert-warning">
+				<button class="btn btn-info doc pull-right" data-to-load="doc.messageBox">DOC messageBox</button>
+				<button class="btn btn-primary doc" data-to-load="doc.ajaxPostForm">DOC ajaxPostForm.js</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-10">
+				<div style="padding-bottom:150px;" id="docLoader"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

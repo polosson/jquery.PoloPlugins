@@ -1,26 +1,5 @@
-var sto;
-(function($) {
-	/**
-	 * Display a message in a div
-	 * @setting STRING identifier	The div's identifier (css selector)
-	 * @setting STRING cssClass		The class name to set on the div
-	 * @setting STRING message		The message to display
-	 * @returns null
-	 */
-	$.messageBox = function(options) {
-		var defaults = {
-			'identifier': "#messageBox",
-			'cssClass': 'alert-info',
-			'message': ""
-		};
-		var opts = $.extend({}, defaults, options);
-		clearTimeout(window.sto);
-		$(opts.identifier).show().removeClass('hide alert-success alert-info alert-warning alert-danger').addClass(opts.cssClass);
-		$(opts.identifier).find('.message').html(opts.message);
-		if (opts.cssClass == 'alert-info' || opts.cssClass == 'alert-danger') return;
-		window.sto = setTimeout(function(){ $(opts.identifier).fadeOut(1500); }, 3000);
-	};
 
+(function($) {
 	/**
 	 * Ajax posting form
 	 * @param {OBJECT} options The settings above
@@ -32,7 +11,16 @@ var sto;
 	 * @returns {OBJECT} the jQuery object instance
 	 */
 	$.fn.ajaxPostForm = function(options){
-		// Multiple elements support
+		/*
+		 * Check presence of messageBox plugin
+		 */
+		if (typeof $.messageBox !== "function") {
+			alert('jquery.messageBox plugin is missing!');
+			return;
+		}
+		/*
+		 * Multiple elements support
+		 */
 		if (this.length > 1){
 			this.each(function(){
 				$(this).ajaxPostForm(options);

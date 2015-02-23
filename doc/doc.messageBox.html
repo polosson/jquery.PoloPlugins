@@ -1,0 +1,36 @@
+<h3>messageBox.js</h3>
+<article>
+	<h4>Basic use</h4>
+	<p>
+		First, create a hidden DIV or other HTML block, with <b>id="messageBox"</b>, somewhere in your html body.
+	</p>
+	<code>&lt;div class="alert hide" id="messageBox"&gt;&lt;/div&gt;</code>
+	<br /><br />
+	<p>
+		Then, on DOM ready, just use:
+	</p>
+	<pre>
+<code>$.messageBox({
+	"cssClass": "alert-danger",
+	"message": "Your error message"
+});</code>
+	</pre>
+</article>
+<article>
+	<h4>Options</h4>
+	<p>There are 4 options available:</p>
+	<ul>
+		<li><b>"identifier"</b> : The CSS selector for the div where to initialize the message box <i>(default "#messageBox")</i></li>
+		<li><b>"cssClass"</b>   : A CSS class to add to the message box (for design purpose) <i>(default "alert-info")</i></li>
+		<li><b>"message"</b>	: The message to display <i>(default "")</i></li>
+		<li><b>"closeBtn"</b>	: A string describing the close button <i>(default "x")</i></li>
+	</ul>
+	<pre>
+<code>$.messageBox({
+	'identifier':	"#messageBox",
+	'cssClass':	'alert-info',
+	'message':	"Your info message",
+	'closeBtn':	"x"
+});</code>
+	</pre>
+</article>

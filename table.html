@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ajaxActions PoloPlugin</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="polosson">
+
+	<link  href="vendor/bootstrap.min.css" rel="stylesheet" />
+
+	<script src="vendor/jquery-2.0.1.min.js"></script>
+	<script src="vendor/bootstrap.min.js"></script>
+	<script src="js/jquery.messageBox.js"></script>
+	<script src="js/jquery.ajaxActions.js"></script>
+	<script>
+	$(function(){
+		// Message box example
+		$.messageBox({'message':"Welcome !!"});
+		// Table actions example
+		$('#actionDemo').ajaxActions({
+			"export": function(dataSet, rowID){		// Custom action
+				$.messageBox({"message":"Exporting #"+rowID+" from '"+dataSet+"'... Oh yeah?"});
+				params["dataSet"] = dataSet, params["rowID"]  = rowID;
+				return (confirm("Exporting this row to XML file ?"));
+			}
+		});
+		// Documentation loader
+		$('.doc').click(function(){
+			var toLoad = $(this).data("to-load");
+			$('#docLoader').load('doc/'+toLoad+'.html?1');
+		});
+	});
+	</script>
+</head>
+<body style="overflow-y: scroll;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-10 alert alert-warning">
+				<h2><a href="index.html">JQuery Polo Plugins</a></h2>
+				<a class="btn btn-primary" href="message.html">messageBox.js</a>
+				<a class="btn btn-primary" href="form.html">ajaxPostForm.js</a>
+				<a class="btn btn-warning" href="table.html">ajaxActions.js</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-6">
+				<h3>Jquery plugin to handle actions with ajax POST - <small>jquery.ajaxActions.js</small></h3>
+				<div id="ajaxActionsDemo" class="collapse in">
+					<div id="actionDemo" class="well">
+						<h4>#testActions</h4>
+						<table class="table table-stripped" data-destination="actions/A_test.php" data-set="someZas" id="testActions">
+							<thead>
+								<tr>
+									<th data-editable="false" data-field="id" style="width:50px;">ID</th>
+									<th data-editable="true"  data-field="type">Type</th>
+									<th data-editable="true"  data-field="descr">Description</th>
+									<th data-editable="false" data-field="__actions" style="width:150px;">
+										Actions
+										<button class="btn btn-xs btn-success pull-right" data-button-action="add">ADD</button>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr data-row-id="1">
+									<td data-field="id"	 data-value="1"># 1</td>
+									<td data-field="type"  data-value="za1">Type <b>za1</b></td>
+									<td data-field="descr" data-value="Wouzaah n°1"><code>Wouzaah n°1</code></td>
+									<td data-field="__actions">
+										<div class="btn-group">
+											<button class="btn btn-xs btn-primary" data-button-action="edit"  >Edit</button>
+											<button class="btn btn-xs btn-warning" data-button-action="export">Export</button>
+											<button class="btn btn-xs btn-danger"  data-button-action="delete">Delete</button>
+										</div>
+									</td>
+								</tr>
+								<tr data-row-id="2">
+									<td data-field="id"	 data-value="2"># 2</td>
+									<td data-field="type"  data-value="za2">Type <b>za2</b></td>
+									<td data-field="descr" data-value="Wouzaah n°2"><code>Wouzaah n°2</code></td>
+									<td data-field="__actions">
+										<div class="btn-group">
+											<button class="btn btn-xs btn-primary" data-button-action="edit"  >Edit</button>
+											<button class="btn btn-xs btn-warning" data-button-action="export">Export</button>
+											<button class="btn btn-xs btn-danger"  data-button-action="delete">Delete</button>
+										</div>
+									</td>
+								</tr>
+								<tr data-row-id="3">
+									<td data-field="id"	 data-value="3"># 3</td>
+									<td data-field="type"  data-value="za3">Type <b>za3</b></td>
+									<td data-field="descr" data-value="Wouzaah n°3"><code>Wouzaah n°3</code></td>
+									<td data-field="__actions">
+										<div class="btn-group">
+											<button class="btn btn-xs btn-primary" data-button-action="edit"  >Edit</button>
+											<button class="btn btn-xs btn-warning" data-button-action="export">Export</button>
+											<button class="btn btn-xs btn-danger"  data-button-action="delete">Delete</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot class="hide">
+								<tr>
+									<td data-field="id"># {{val}}</td>
+									<td data-field="type">Type <b>{{val}}</b></td>
+									<td data-field="descr"><code>{{val}}</code></td>
+									<td data-field="__actions">
+										<div class="btn-group">
+											<button class="btn btn-xs btn-primary" data-button-action="edit"  >Edit</button>
+											<button class="btn btn-xs btn-warning" data-button-action="export">Export</button>
+											<button class="btn btn-xs btn-danger"  data-button-action="delete">Delete</button>
+										</div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="row" style="margin-top:30px;">
+					<div class="alert hide" id="messageBox"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-7 alert-warning">
+				<button class="btn btn-info doc pull-right" data-to-load="doc.messageBox">DOC messageBox</button>
+				<button class="btn btn-primary doc" data-to-load="doc.ajaxActions">DOC ajaxActions.js</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-10">
+				<div style="padding-bottom:150px;" id="docLoader"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

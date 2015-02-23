@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ajaxPostForm PoloPlugin</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="polosson">
+
+	<link  href="vendor/bootstrap.min.css" rel="stylesheet" />
+
+	<script src="vendor/jquery-2.0.1.min.js"></script>
+	<script src="vendor/bootstrap.min.js"></script>
+	<script src="js/jquery.messageBox.js"></script>
+	<script src="js/jquery.ajaxPostForm.js"></script>
+	<script>
+	$(function(){
+		// Message box example
+		$.messageBox({'message':"Welcome !!"});
+		// Documentation loader
+		$('.doc').click(function(){
+			var toLoad = $(this).data("to-load");
+			$('#docLoader').load('doc/'+toLoad+'.html?12345');
+		});
+		// Messages Example
+		$('.msgExample').click(function(){
+			var mclass	= $(this).data('type');
+			var msg		= $(this).data('message');
+			$.messageBox({'cssClass':'alert-'+mclass,'message':msg});
+		});
+	});
+	</script>
+</head>
+<body style="overflow-y: scroll;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-10 alert alert-warning">
+				<h2><a href="index.html">JQuery Polo Plugins</a></h2>
+				<a class="btn btn-warning" href="message.html">messageBox.js</a>
+				<a class="btn btn-primary" href="form.html">ajaxPostForm.js</a>
+				<a class="btn btn-primary" href="table.html">ajaxActions.js</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-6">
+				<h2>Jquery utility to display messages in a div - <small>jquery.messageBox.js</small> -</h2>
+				<p style="margin-top:30px;">
+					This litte utility is used to display response or error messages from the server,
+					and which can be used to display any message you want.
+				</p>
+				<p>
+					<b>Examples:</b> <small>(click on buttons below)</small>
+				</p>
+				<p>
+					<button class="btn btn-xs btn-success msgExample" data-type="success" data-message="Successfull test!!">SUCCESS message</button>
+					<button class="btn btn-xs btn-warning msgExample" data-type="warning" data-message="Warning message test!!">WARNING message</button>
+					<button class="btn btn-xs btn-info	  msgExample" data-type="info"	  data-message="Information test!!">INFO message</button>
+					<button class="btn btn-xs btn-danger  msgExample" data-type="danger"  data-message="Danger (error) message test!!">DANGER message</button>
+				</p>
+				<br />
+				<p>
+					Note that the <b class="text-success">"success"</b> and <b class="text-warning">"warning"</b> messages <u>fade out</u> after 5 seconds,
+					while <b class="text-info">"info"</b> and <b class="text-danger">"danger"</b> messages will stay diplayed until you close it.
+				</p>
+				<p>
+					Very simple but usefull!
+				</p>
+			</div>
+			<div class="col-lg-4">
+				<div class="row" style="margin-top:30px;">
+					<div class="alert hide" id="messageBox"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top:30px;">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-10 alert-warning">
+				<button class="btn btn-primary doc" data-to-load="doc.messageBox">Documentation</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-10">
+				<div style="padding-bottom:150px;" id="docLoader"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
