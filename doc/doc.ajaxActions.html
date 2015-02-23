@@ -21,15 +21,15 @@
 			</ul>
 		</li>
 		<li>
-			In the **&lt;tbody&gt;**:
+			In the <b>&lt;tbody&gt;</b>:
 			<ul>
-				<li>each &lt;tr&gt must have the attribute <code>data-row-id=""</code> with the ID of the row.</li>
-				<li>each &lt;td&gt must have the attributes <code>data-field=""</code> that correspond to the data name
+				<li>each <code>&lt;tr&gt;</code> must have the attribute <code>data-row-id=""</code> with the ID of the row.</li>
+				<li>each <code>&lt;td&gt;</code> must have the attributes <code>data-field=""</code> that correspond to the data name
 					of the column, and <code>data-value=""</code> which is the current value of the column for this row.</li>
 			</ul>
 		</li>
 		<li>
-			The (hidden) **&lt;tfoot&gt;** must:
+			The (hidden) <b>&lt;tfoot&gt;</b> must:
 			<ul>
 				<li>
 					contain one row with exactly the same structure as one row of the &lt;tbody&gt;, except that the
@@ -42,7 +42,7 @@
 			</ul>
 		</li>
 		<li>
-			All **action buttons** must have the attributes `data-button-action="yourAction"`. There are 3 predefined actions:
+			All <b>action buttons</b> must have the attributes <code>data-button-action="yourAction"</code>. There are 3 predefined actions:
 			<ul>
 				<li>"add": To add a row</li>
 				<li>"edit": To edit a row</li>
@@ -92,7 +92,7 @@
 	&lt;/tfoot&gt;
 &lt;/table&gt;
 &lt;script&gt;
-	$(function(){							// Wait for DOM ready
+	$(function(){					// Wait for DOM ready
 		$('#myActionTable').ajaxActions();	// Plugin initialisation
 	});
 &lt;/script&gt;</code>
@@ -101,9 +101,20 @@
 <article>
 	<h4>More options</h4>
 	<p>
-		Essentially, you can set any action function you need. You simply must be sure that the action name and its function name are the same.
+		Essentially, you can set <b>any custom action's function</b> you need. You simply must be sure that the action name and its function name are the same.
 	</p>
-	Example of custom action button:
+	Custom action's functions have 2 parameters available, and 1 global var is available to set:
+	<ul>
+		<li><b><code>dataSet</code></b>: the name of the data you specified on the table's `data-set` attribute</li>
+		<li><b><code>rowID</code></b>: the ID of the row given by the tr's `data-row-id` attribute</li>
+		<li>The global object variable <b><code>params</code></b> is available to define the request to send to the server.</li>
+	</ul>
+	A custom action's function must return a boolean:
+	<ul>
+		<li><b>TRUE</b> to proceed the ajax call right after the function finish
+		<li><b>FALSE</b> to proceed later, by clicking a <code>data-button-action="submit"</code> button that you created yourself.
+	</ul>
+	Example of simple custom action button:
 	<pre><code>
 &lt;table data-destination="actions/A_users.php" data-set="users" id="myActionTable"&gt;
 	(...)
@@ -111,30 +122,14 @@
 	(...)
 &lt;/table&gt;</code>
 	</pre>
+	Now let's initialize our ajaxActions with a defined "export" method:
 	<pre><code>
-&lt;script&gt;
-// Wait for DOM ready
-$(function(){
-	// Plugin initialisation
-	$('#myActionTable').ajaxActions({
-		// custom function for action button "export"
-		"export": function(dataSet, rowID){
-			$.messageBox({"message":"Exporting #"+rowID+" from '"+dataSet+"'..."});
-			params["dataSet"] = dataSet, params["rowID"] = rowID;
-			return (confirm("Exporting this row to XML file ?"));
-		}
-	});
-});
-&lt;/script&gt;</code>
+$('#myActionTable').ajaxActions({
+	"export": function(dataSet, rowID){						// custom function for action button "export"
+		$.messageBox({"message":"Exporting #"+rowID+" from '"+dataSet+"'..."});
+		params["dataSet"] = dataSet, params["rowID"] = rowID;
+		return (confirm("Exporting this row to XML file ?"));
+	}
+});</code>
 	</pre>
-</article>
-<article>
-	Custom action's functions have 2 parameters available:
-	- `dataSet`: the name of the data you specified on the table's `data-set` attribute
-	- `rowID`: the ID of the row given by the tr's `data-row-id` attribute
-	The global object variable **params** is available to define the request to send to the server.
-
-	A custom function must return a boolean:
-	- `TRUE` to proceed the ajax call right after the function finish
-	- `FALSE` to proceed later by clicking a `data-button-action="submit"` button that you create yourself.
 </article>
