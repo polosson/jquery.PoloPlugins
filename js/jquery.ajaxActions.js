@@ -30,7 +30,8 @@ var params		= {};
 		var buttons		= table.find('button[data-button-action]');
 		var destination	= table.data('destination');
 		params			= {};
-		buttons.prop('disabled', null);
+		buttons.prop('disabled', false);
+		console.log(destination);
 
 		/**
 		 * Defaults functions and callbacks
@@ -42,7 +43,7 @@ var params		= {};
 			"edit":	   function(dataSet,rowID) { return editRow(dataSet,rowID); },
 			"delete":  function(dataSet,rowID) { return delRow(dataSet,rowID); },
 			"submit":  function(dataSet,rowID) { return initSubmitParams(dataSet,rowID); },
-			"cancel":  function(dataSet,rowID) { return resetParams(dataSet,rowID); },
+			"cancel":  function(dataSet,rowID) { return resetParams(); },
 			onSuccess: function(R){
 				$.messageBox({"cssClass":'alert-success', "message":R.message});
 				if (params['action'] === "add")
@@ -50,7 +51,7 @@ var params		= {};
 				if (params["action"] === "edit")
 					updateTableRow(R.data.newData, R.data.rowID);
 				else
-					resetParams(params['dataSet'], params["rowID"]);
+					resetParams();
 			},
 			onFail:	function(R){
 				$.messageBox({"cssClass":'alert-danger', "message":"Server error:<br />"+R.message});
@@ -90,7 +91,7 @@ var params		= {};
 		function addRow(dataSet){
 			$.messageBox({"message":"Adding a row in '"+dataSet+"'..."});
 			params = {"action":"add", "rowID":0};
-			buttons.prop('disabled', 'disabled');
+			buttons.prop('disabled', true);
 			var line = '<tr data-row-id="0">';
 			table.find('th').each(function(){
 				var field	 = $(this).data("field");
@@ -119,7 +120,7 @@ var params		= {};
 		function editRow(dataSet, rowID){
 			$.messageBox({"message":"Editing the row #"+rowID+" in '"+dataSet+"'..."});
 			params = {"action":"edit", "rowID":rowID};
-			buttons.prop('disabled', 'disabled');
+			buttons.prop('disabled', true);
 			var $line = $('tr[data-row-id="'+rowID+'"]');
 			table.find('th').each(function(){
 				var editable = $(this).data("editable");
@@ -170,15 +171,11 @@ var params		= {};
 		}
 
 		/**
-		 * Click on cancel button
-		 * @param {STRING} dataSet The data name (i.e. SQL table)
-		 * @param {STRING} rowID The ID of the row
+		 * Reset the "params" global var to {}, and rebuild the table as it should be.
 		 * @returns {FALSE}
 		 */
-		function resetParams(dataSet, rowID) {
-			var inputsLine = $('tr[data-row-id="'+rowID+'"]');
-			if (["add","delete"].indexOf(params['action']) != -1)
-				inputsLine.remove();
+		function resetParams() {
+			var inputsLine = $('tr[data-row-id="'+params['rowID']+'"]');
 			if (params['action'] === "edit") {
 				inputsLine.find('input').each(function(){
 					var oldVal = $(this).data('old-value');
@@ -189,11 +186,15 @@ var params		= {};
 				});
 				var btnModel = table.find('tfoot td[data-field="__actions"]').html();
 				inputsLine.find('td[data-field="__actions"]').html(btnModel);
+				$.messageBox({"message": "Action 'edit' aborted."});
 			}
-			$.messageBox({"message":""});
+			else if (["add","delete"].indexOf(params['action']) != -1)
+				inputsLine.remove();
+			else
+				$.messageBox({"message": "Action '"+params['action']+"' aborted."});
 			params = {};
 			buttons = table.find('button[data-button-action]');
-			buttons.prop('disabled', null);
+			buttons.prop('disabled', false);
 			return false;
 		}
 
@@ -227,7 +228,7 @@ var params		= {};
 			line += '</tr>';
 			table.append(line);
 			buttons = table.find('button[data-button-action]');
-			buttons.prop('disabled', null);
+			buttons.prop('disabled', false);
 		}
 
 		/**
@@ -246,7 +247,7 @@ var params		= {};
 			var btnModel = table.find('tfoot td[data-field="__actions"]').html();
 			inputsLine.find('td[data-field="__actions"]').html(btnModel);
 			buttons = table.find('button[data-button-action]');
-			buttons.prop('disabled', null);
+			buttons.prop('disabled', false);
 		}
 
 		return this;
