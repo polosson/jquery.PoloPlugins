@@ -6,6 +6,8 @@ This litte **utility** is used to display response or error messages from the se
 
 Started with JQuery 2.0.1, and using Bootstrap CSS classes | License: Creative Common "CC-BY-SA 4.0"
 
+```Note: this plugin is required to use other Polosson's ajax plugins.```
+
 
 #### Basic usage
 First, create a hidden DIV or other HTML block, with **id="messageBox"**, somewhere in your html body.
@@ -53,6 +55,8 @@ In this file, there are also 3 jquery ajax-events binded:
 A jquery plugin to help work with ajax forms.
 
 Started with JQuery 2.0.1, and using Bootstrap CSS classes | License: Creative Common "CC-BY-SA 4.0"
+
+```Note: this plugin depends on jquery.messageBox.js.```
 
 #### Basic usage
 
@@ -126,6 +130,8 @@ data-rules: {"r":(bool),"m":(int),"M":(int),"f":(str)}
 A jquery plugin to help work with action buttons in a table of data.
 
 Started with JQuery 2.0.1, and using Bootstrap CSS classes | License: Creative Common "CC-BY-SA 4.0"
+
+```Note: this plugin depends on jquery.messageBox.js.```
 
 #### Basic usage
 
