@@ -1,3 +1,5 @@
+These few jquery plugins are designed to work easily with "ajax actions". Basically, a set of buttons that call some POST requests to a server. But also some forms with any inputs, textarea or select that you'd like to treat with ajax, in one line of code ;)
+
 ## jquery.messageBox.js
 
 #### Basic usage
@@ -13,27 +15,29 @@ Then, on DOM ready, just use:
 </pre>
 
 When **alert-success** and **alert-warning** classes are given, the message box will fade out 
-automatically after **3 seconds**. With any other classes (like <i>"alert-info"</i> or <i>"alert-danger"</i>),
+automatically after **3 seconds**. With any other classes (like "alert-info" or "alert-danger"),
 the message box will stay diplayed until you close it with the close button.
 
 #### Options
 
 There are 4 options available:
-- **identifier** 	: The CSS selector for the div where to initialize the message box <i>(default "#messageBox")</i>
-- **cssClass**   	: A CSS class to add to the message box (for design purpose) <i>(default "alert-info")</i>
-- **message**		: The message to display <i>(default "")</i>
-- **closeBtn**	: A string describing the close button <i>(default "x")</i>
+- **identifier** : The CSS selector for the div where to initialize the message box (default "#messageBox")
+- **cssClass** : A CSS class to add to the message box (for design purpose) (default "alert-info")
+- **message** : The message to display (default "")
+- **closeBtn** : A string describing the close button (default "x")
 
-<pre><code>$.messageBox({
+<pre>$.messageBox({
 	'identifier':	"#messageBox",
 	'cssClass':	'alert-info',
 	'message':	"Your info message",
 	'closeBtn':	"x"
-});</pre>
+});
+</pre>
 
 <hr />
 
 ## jquery.ajaxPostForm.js
+
 A jquery plugin to help work with ajax forms.
 
 Started with JQuery 2.0.1, and using Bootstrap CSS classes | Licence: GNU Affero 3.0
@@ -46,25 +50,26 @@ With a collection of inputs, textareas and selects within a &lt;div&gt; (or othe
 
 This div **must contain** a button or submit input that have the class `.submitBtn`, and the following `data-` attributes:
 
+
 #### Submit button inline parameters
-<pre>
-data-destination	-> string : Path to the server for the POST request *REQUIRED*
-data-action			-> string : Name of the action to put in request *REQUIRED*
-data-extra-params	-> object : Some additionnal parameters to send (optionnal)
-</pre>
+
+- **data-destination** -> string : Path to the server for the POST request **REQUIRED**
+- **data-action** -> string : Name of the action to put in request **REQUIRED**
+- **data-extra-params** -> object : Some additionnal parameters to send (optionnal)
+
 
 #### Options & callbacks
 
 There are 4 options available:
-- "submit"	: The CSS selector for the submit button (default ".submitBtn")
-- "minInputLength" : Global minimum length for input or textarea fields (default 4)
-- "maxInputLength"	: Global maximum length for input or textarea fields (0 = no limit) (default 0)
-- "extraParams"	: Global additionnal parameters to send (can be null, to be set by inline 'data-' attributes) (default null)
+- **submit**	: The CSS selector for the submit button (default ".submitBtn")
+- **minInputLength** : Global minimum length for input or textarea fields (default 4)
+- **maxInputLength**	: Global maximum length for input or textarea fields (0 = no limit) (default 0)
+- **extraParams**	: Global additionnal parameters to send (can be null, to be set by inline 'data-' attributes) (default null)
 
 There are 3 callbacks available:
-- "onSubmit(R)"	: Invoked when the submit button is pressed. Must return TRUE in order to proceed submit (you can return FALSE, i.e. in case the user don't respect something). R is an object with: R.params -> the request (object) that will be posted, R.message -> The string "Sending request..."
-- "onSuccess(R)"	: Invoked after post request succeeded. R is an object with: R.error -> The string "OK", R.message -> The success message itself (server response)
-- "onFail(R)"	: Invoked when post request failed. R is an object with: R.error -> The string "error", R.message -> The error message itself
+- **onSubmit(R)**	: Invoked when the submit button is pressed. Must return TRUE in order to proceed submit (you can return FALSE, i.e. in case the user don't respect something). R is an object with: R.params -> the request (object) that will be posted, R.message -> The string "Sending request..."
+- **onSuccess(R)**	: Invoked after post request succeeded. R is an object with: R.error -> The string "OK", R.message -> The success message itself (server response)
+- **onFail(R)**	: Invoked when post request failed. R is an object with: R.error -> The string "error", R.message -> The error message itself
 
 Example:
 <pre>
@@ -74,7 +79,7 @@ $('#yourFormDiv, #anotherOne').ajaxPostForm({
 	'maxInputLength': 20,
 	'extraParams': {
 		"happy":"yes",
-		"tired":"nope"	// and as many as you need
+		"tired":"nope"	// and as many other params as you need
 	},
 	onSubmit: function(R){
 		console.log(R.data, R.message);
@@ -103,7 +108,9 @@ data-rules: {"r":(bool),"m":(int),"M":(int),"f":(str)}
 
 <hr />
 
+
 ## jquery.ajaxActions.js
+
 A jquery plugin to help work with action buttons in a table of data.
 
 Started with JQuery 2.0.1, and using Bootstrap CSS classes | Licence: GNU Affero 3.0
