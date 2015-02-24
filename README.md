@@ -34,6 +34,13 @@ There are 4 options available:
 });
 </pre>
 
+#### Bonus
+
+In this file, there are also 3 jquery ajax-events binded:
+- **ajaxStart**: Send the last ajax error to $.messageBox</li>
+- **ajaxStop**: Shows a div with id **#ajaxLoader** (it must be present in your DOM, you can place it where you want, and put anything you want in it - like a spinning icon, some text...)
+- **ajaxError**: Hides the **#ajaxLoader** div.
+
 <hr />
 
 ## jquery.ajaxPostForm.js
