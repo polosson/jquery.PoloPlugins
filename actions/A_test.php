@@ -12,11 +12,13 @@ error_reporting(E_ALL & ~E_NOTICE);
  * to block access if needed.
  */
 
-// Use $return to answer the request, with anything you want in addition to the 2 mandatory:
+extract($_POST);
+
+// Use the array $return to answer the request,
+// with anything you want in addition to these 2 required:
 $return['error'] = 'error';
 $return['message'] = "Action '$action' unknown.";
 
-extract($_POST);
 try {
 
 	if ($action == 'testOne') {
