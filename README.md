@@ -29,7 +29,7 @@ There are 4 options available:
 - **identifier** : The CSS selector for the div where to initialize the message box (default "#messageBox")
 - **cssClass** : A CSS class to add to the message box (for design purpose) (default "alert-info")
 - **message** : The message to display (default "")
-- **closeBtn** : A string describing the close button (default "x")
+- **closeBtn** : A string to define the close button (like a button, a span with an icon...) (default "x")
 
 <pre>$.messageBox({
 	'identifier':	"#messageBox",
