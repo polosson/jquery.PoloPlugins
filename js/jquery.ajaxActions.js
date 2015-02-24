@@ -1,3 +1,9 @@
+/**
+ * JQuery PoloPlugins - messageBox
+ * License Creative Common "CC-BY-SA 4.0"
+ *	http://creativecommons.org/licenses/by-sa/3.0/legalcode
+ *	You can copy, redistribute and modify the code for any purpose, even commercially.
+ */
 var params		= {};
 (function($) {
 	/**
