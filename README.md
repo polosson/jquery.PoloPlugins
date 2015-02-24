@@ -4,7 +4,7 @@ These few jquery plugins are designed to easily work with "ajax actions". Basica
 
 This litte **utility** is used to display response or error messages from the server, and which can be used to display any message you want.
 
-Started with JQuery 2.0.1, and using Bootstrap CSS classes | Licence: GNU Affero 3.0
+Started with JQuery 2.0.1, and using Bootstrap CSS classes | License: Creative Common "CC-BY-SA 4.0"
 
 
 #### Basic usage
@@ -52,7 +52,7 @@ In this file, there are also 3 jquery ajax-events binded:
 
 A jquery plugin to help work with ajax forms.
 
-Started with JQuery 2.0.1, and using Bootstrap CSS classes | Licence: GNU Affero 3.0
+Started with JQuery 2.0.1, and using Bootstrap CSS classes | License: Creative Common "CC-BY-SA 4.0"
 
 #### Basic usage
 
@@ -125,7 +125,7 @@ data-rules: {"r":(bool),"m":(int),"M":(int),"f":(str)}
 
 A jquery plugin to help work with action buttons in a table of data.
 
-Started with JQuery 2.0.1, and using Bootstrap CSS classes | Licence: GNU Affero 3.0
+Started with JQuery 2.0.1, and using Bootstrap CSS classes | License: Creative Common "CC-BY-SA 4.0"
 
 #### Basic usage
 
