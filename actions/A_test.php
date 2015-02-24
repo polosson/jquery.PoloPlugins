@@ -1,46 +1,64 @@
-<?php
+<?php /**
+ *	Example of PHP ajax-actions treatment.
+ *	License Creative Common "CC-BY-SA 4.0"
+ *		http://creativecommons.org/licenses/by-sa/3.0/legalcode
+ *		You can copy, redistribute and modify the code for any purpose, even commercially.
+ *	Polosson 2015
+ */
 error_reporting(E_ALL & ~E_NOTICE);
-// Do some access auth checks here
+/**
+ * You can do some access auth checks here. Use:
+ *		die({"error":"error", "message":"error message"});
+ * to block access if needed.
+ */
+
+// Use $return to answer the request, with anything you want in addition to the 2 mandatory:
+$return['error'] = 'error';
+$return['message'] = "Action '$action' unknown.";
 
 extract($_POST);
-
-$retour['error'] = 'error';
-$retour['message'] = "Action '$action' unknown.";
-
 try {
 
 	if ($action == 'testOne') {
-		$retour['error'] = 'OK';
-		$retour['message'] = "OK, well done n°1";
-		$retour['data'] = $_POST;
+		// Treat the action here
+		// Don't forget to use "throw" for your custom error reporting.
+		// It will be treated as a normal error and will be smoothly collected
+		// by the JS callbacks (see $.messageBox.js)
+		$return['error'] = 'OK';
+		$return['message'] = "OK, action testOne successful !";
+		$return['data'] = $_POST;
 	}
 
 	if ($action == 'testTwo') {
-		$retour['error'] = 'OK';
-		$retour['message'] = "OK, well done n°2";
-		$retour['data'] = $_POST;
+		// Treat the action here
+		$return['error'] = 'OK';
+		$return['message'] = "OK, well done! Action 'testTwo' treated.";
+		$return['data'] = $_POST;
 	}
 
 	if ($action == 'add') {
-		$retour['error'] = 'OK';
-		$retour['message'] = "OK, the ROW was ADDED !!";
-		$retour['data'] = $_POST;
-		$retour['data']["newData"]['id'] = 4;
+		// Treat the action here
+		$return['error'] = 'OK';
+		$return['message'] = "OK, the ROW was ADDED !!";
+		$return['data'] = $_POST;
+		$return['data']["newData"]['id'] = 4;
 	}
 
 	if ($action == 'edit') {
-		$retour['error'] = 'OK';
-		$retour['message'] = "OK, the ROW was EDITED !!";
-		$retour['data'] = $_POST;
+		// Treat the action here
+		$return['error'] = 'OK';
+		$return['message'] = "OK, the ROW was EDITED !!";
+		$return['data'] = $_POST;
 	}
 
 	if ($action == 'delete') {
-		$retour['error'] = 'OK';
-		$retour['message'] = "OK, the ROW was DELETED !!";
-		$retour['data'] = $_POST;
+		// Treat the action here
+		$return['error'] = 'OK';
+		$return['message'] = "OK, the ROW was DELETED !!";
+		$return['data'] = $_POST;
 	}
 
 }
-catch(Exception $e) { $retour['message'] = $e->getMessage(); }
+catch(Exception $e) { $return['message'] = $e->getMessage(); }
 
-echo json_encode($retour, JSON_UNESCAPED_UNICODE);
+echo json_encode($return, JSON_UNESCAPED_UNICODE);
