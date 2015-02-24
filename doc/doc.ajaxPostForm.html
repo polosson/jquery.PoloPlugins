@@ -5,11 +5,13 @@
 
 <h3>ajaxPostForm.js documentation</h3>
 <article>
-	<h4>Basic use</h4>
-	<code>$('#testform, #testform2').ajaxPostForm();</code>
+	<h4>Basic usage</h4>
+	<p>With a collection of inputs, textareas and selects within a &lt;div&gt; (or other container, like &lt;form&gt; or &lt;section&gt;), you can just add this when DOM is ready:</p>
+	<p><code>$('#testform, #testform2').ajaxPostForm();</code></p>
+	<p>This div <b>must contain</b> a button or submit input that have the class <code>.submitBtn</code>, and the following <code>data-</code> attributes:</p>
 </article>
 <article>
-	<h4>Submit button inline parameters (data- attributes on submit button)</h4>
+	<h4>Submit button inline parameters</h4>
 	<pre>data-destination	-> string : The path to the server for the POST request *REQUIRED*
 data-action		-> string : The name of the action to send to the server *REQUIRED*
 data-extra-params	-> object : Some additionnal parameters to send to the server (optionnal)</pre>

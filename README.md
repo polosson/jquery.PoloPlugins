@@ -1,4 +1,4 @@
-These few jquery plugins are designed to work easily with "ajax actions". Basically, a set of buttons that call some POST requests to a server. But also some forms with any inputs, textarea or select that you'd like to treat with ajax, in one line of code ;)
+These few jquery plugins are designed to easily work with "ajax actions". Basically, a set of buttons in a table, that should send POST requests to a server automagically... But also forms with many inputs, textarea or select that you'd like to treat with ajax, in one line of code ;)
 
 ## jquery.messageBox.js
 
@@ -14,7 +14,7 @@ Then, on DOM ready, just use:
 });
 </pre>
 
-When **alert-success** and **alert-warning** classes are given, the message box will fade out 
+When **alert-success** and **alert-warning** classes are given, the message box will fade out
 automatically after **3 seconds**. With any other classes (like "alert-info" or "alert-danger"),
 the message box will stay diplayed until you close it with the close button.
 
@@ -205,7 +205,7 @@ Example of simple custom action button:
 &lt;/table&gt;
 </pre>
 
-Now let's initialize our ajaxActions with a defined "export" method, which defines at the same time the params to pass via POST request: 
+Now let's initialize our ajaxActions with a defined "export" method, which defines at the same time the params to pass via POST request:
 <pre>
 $('#myActionTable').ajaxActions({
 	"export": function(dataSet, rowID){	// custom function for action button "export"
