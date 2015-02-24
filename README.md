@@ -2,6 +2,11 @@ These few jquery plugins are designed to easily work with "ajax actions". Basica
 
 ## jquery.messageBox.js
 
+This litte **utility** is used to display response or error messages from the server, and which can be used to display any message you want.
+
+Started with JQuery 2.0.1, and using Bootstrap CSS classes | Licence: GNU Affero 3.0
+
+
 #### Basic usage
 First, create a hidden DIV or other HTML block, with **id="messageBox"**, somewhere in your html body.
 
