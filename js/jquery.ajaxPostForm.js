@@ -130,7 +130,7 @@
 			var rules = $(elem).data('rules');
 			var ok = true;
 			$(elem).parent().removeClass('has-error');
-			if (type === "text" || type === "password" || $(elem).is('textarea')){
+			if (type === "text" || type === "email" || type === "password" || $(elem).is('textarea')){
 				if ((rules && rules.m && value.length < rules.m) || value.length < opts.minInputLength) {
 					ok = false;
 					if (rules && rules.r === 1){
