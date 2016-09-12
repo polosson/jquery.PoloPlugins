@@ -161,7 +161,7 @@
 				}
 			}
 			if (type === 'radio') {
-				if (!$(elem).parent('label').hasClass('active'))
+				if (!$(elem).prop('checked'))
 					ok = false;
 			}
 			if (!ok && rules && rules.r === 1 && stop)
