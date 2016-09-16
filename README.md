@@ -81,6 +81,8 @@ There are 4 options available:
 - **minInputLength** : Global minimum length for input or textarea fields (default 4)
 - **maxInputLength**	: Global maximum length for input or textarea fields (0 = no limit) (default 0)
 - **extraParams**	: Global additionnal parameters to send (can be null, to be set by inline 'data-' attributes) (default null)
+- **liveValidate**	: Wether to use live validation, i.e. when key is pressend or input changed (default False)
+- **liveValidType**	: Type of event to listen for live validation (default 'change')
 
 There are 3 callbacks available:
 - **onSubmit(R)**	: Invoked when the submit button is pressed. Must return TRUE in order to proceed submit (you can return FALSE, i.e. in case the user don't respect something). R is an object with: R.params -> the request (object) that will be posted, R.message -> The string "Sending request..."
@@ -93,12 +95,21 @@ $('#yourFormDiv, #anotherOne').ajaxPostForm({
 	'submit': '.submitBtn',
 	'minInputLength': 4,
 	'maxInputLength': 20,
+	'liveValidate': true,
+	'liveValidType': 'keyup',
 	'extraParams': {
 		"happy":"yes",
 		"tired":"nope"	// and as many other params as you need
 	},
+	onValidate: function(problem){
+		console.log(problem);
+		// the var 'problem' is a string with all problems listed by validate() function.
+		// If it's an empty string (""), there is no problem.
+		// You can add problems at this point to be displayed if needed.
+		return problem;
+	},
 	onSubmit: function(R){
-		console.log(R.data, R.message);
+		console.log(R.params, R.message);
 		// Must return TRUE in order to continue.
 		return true;	// If returns FALSE, the request won't be sent.
 	},
