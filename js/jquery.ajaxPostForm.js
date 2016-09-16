@@ -41,6 +41,14 @@
 			'minInputLength': 4,
 			'maxInputLength': 0,
 			'extraParams': null,
+			'liveValidate': false,
+			'liveValidType': 'change',
+			onValidate: function(prob){
+				$(this.submit).attr('disabled', 'disabled');
+				if (prob === "")
+					$(this.submit).removeAttr('disabled');
+				return prob;
+			},
 			onSubmit: function(R){
 				$.messageBox({"cssClass":'alert-info', "message":R.message});
 				return true;
@@ -54,6 +62,18 @@
 		};
 
 		var opts = $.extend({}, defaults, options);
+
+		/*
+		 * Listen to changes in form fields to run validation
+		 */
+		if (opts.liveValidate) {
+			this.off(opts.liveValidType, form.find('input textarea'));
+			this.on(opts.liveValidType, form.find('input textarea'), function(e){
+				getAjaxForm();
+				opts.onValidate(problems);
+			});
+		}
+
 		/*
 		 * Listen clicks on submit buttons to send data via POST request
 		 */
@@ -108,7 +128,7 @@
 				var value = $(elem).val();
 				if (!validate(elem, value)) return true;
 				if (type === 'checkbox') {
-					if ($(elem).parent('label').hasClass('active')) {
+					if ($(elem).prop('checked')) {
 						if (!values[name]) values[name] = new Array();
 						values[name] = values[name].concat(value);
 					}
